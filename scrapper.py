@@ -37,11 +37,11 @@ class Scrapper:
         enter the attribute you want to read . 
         """
         html = self.read_page()
-        body = html.body
-        check_list = ["img", "a"]
+        body = html.body()
+        check_list = ["img", "a","div"]
         output = []
-        for check in check_list:
-            for i in body.find_all(check):
+        for tag in body:
+            for i in tag.find_all(check_list):
                 for link in i.get_attribute_list(read):
                     if link is not None:
                         output.append(link)
@@ -72,7 +72,3 @@ class Scrapper:
             curated_link = self.cure_links(link)
             img_links.append(curated_link)
         return img_links
-
-
-sc = Scrapper("https://www.javatpoint.com/git-pull")
-print(len(sc.read_links("src")))
